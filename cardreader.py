@@ -1,9 +1,9 @@
 # coding: utf-8
 import re
 import time
+
 import evdev
 from evdev import InputDevice
-
 
 __author__ = 'Harald Floor Wilhelmsen'
 
@@ -24,7 +24,7 @@ class CardReader:
 
     card_code = ''
     time_read = 0
-    dev = InputDevice('/dev/input/event0')
+    dev = InputDevice('/dev/input/by-id/usb-Sycreader_RFID_Technology_Co.__Ltd_SYC_ID_IC_USB_Reader_08FF20140315-event-kbd')
 
     def get_age(self):
         # returns age in seconds
