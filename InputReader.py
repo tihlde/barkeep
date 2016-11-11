@@ -23,7 +23,7 @@ class InputReader:
     # '/dev/input/by-id/usb-Sycreader_RFID_Technology_Co.__Ltd_SYC_ID_IC_USB_Reader_08FF20140315-event-kbd'
     dev = None
 
-    card_code = ''
+    code_read = ''
     time_read = 0
 
     def __init__(self, device_path, code_validation_pattern, code_valid_time):
@@ -36,11 +36,11 @@ class InputReader:
         return time.time() - self.time_read
 
     def code_is_valid(self):
-        return re.match(self.code_validation_pattern, self.card_code) and self.get_age() <= self.code_valid_time
+        return re.match(self.code_validation_pattern, self.code_read) and self.get_age() <= self.code_valid_time
 
     def get_and_invalidate_code(self):
         self.time_read = 0
-        return self.card_code
+        return self.code_read
 
     def start_read_loop(self):
         read_so_far = ''
@@ -49,7 +49,7 @@ class InputReader:
                 data = evdev.categorize(event)  # Save the event temporarily to introspect it
                 if data.keystate == 1:  # Down events only
                     if data.scancode == 28:
-                        self.card_code = read_so_far
+                        self.code_read = read_so_far
                         read_so_far = ''
                         self.time_read = time.time()
                     else:
