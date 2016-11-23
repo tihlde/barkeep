@@ -36,7 +36,8 @@ class InputReader:
         return time.time() - self.time_read
 
     def code_is_valid(self):
-        return re.match(self.code_validation_pattern, self.code_read) and self.get_age() <= self.code_valid_time
+        return re.match(self.code_validation_pattern, self.code_read) \
+               and self.get_age() <= self.code_valid_time
 
     def get_and_invalidate_code(self):
         self.time_read = 0
@@ -46,7 +47,7 @@ class InputReader:
         read_so_far = ''
         for event in self.dev.read_loop():
             if event.type == evdev.ecodes.EV_KEY:
-                data = evdev.categorize(event)  # Save the event temporarily to introspect it
+                data = evdev.categorize(event)  # Save the event temporarily
                 if data.keystate == 1:  # Down events only
                     if data.scancode == 28:
                         self.code_read = read_so_far
