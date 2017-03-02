@@ -28,12 +28,12 @@ class Barkeep:
         print('Status: ' + str(http_status) + ', text: ' + response.text)
         if not http_status == requests.codes.ok:
             # / error-cause: reaction /
-            # no drinks left: red light, 1 short blink
-            #self.led_controller.red_blink(1)
-            # no user tied to that ID: red light, 2 short blinks
-            #self.led_controller.red_blink(2)
-            # invalid request: red light, 3 short blinks
-            #self.led_controller.red_blink(3)
+            #  no drinks left: red light, 1 short blink
+            # self.led_controller.red_blink(1)
+            #  no user tied to that ID: red light, 2 short blinks
+            # self.led_controller.red_blink(2)
+            #  invalid request: red light, 3 short blinks
+            # self.led_controller.red_blink(3)
             pass
         else:
             # success show green LED
