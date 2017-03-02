@@ -28,7 +28,7 @@ after_failure:
 notifications:
   irc:
     channels:
-      - secure: "gYvXai/20gTtum2Njmv+uXirnZM9vkNwdPMRs9tXHJtB0TdnJsu7eOzWCZX+kJetYuJRVsycbh2EqDbyv+K06gMbXhupP9qf8LwMTcPrrcE1oMEU9MnPOrPuZ0pRc6+OaBPzvr2B722K3FglZPOYTnoCclDs/l4B2rP16s5rV0g="
+      - secure: "Ndd01awJbrVDLx/sGCCFV9JWv2uVQkt1Vjh3fGN+NQLmIfR+oohTYm3TBBe4gGaBwo1Au1RE1I8Ved5V1geWKmNOvxGpgOnRxO/k8MaQ9V2X+uEjfTnnsslVV/nhxAqOAgTPiGnxVsRqAJaww59QnU39qXk/aK0RatpmEZBrTf6zzLH9oc2yk7aPvBGjvFwDin/HPjANyHP5Fypcxzy+aiJaARFKQLO1AR1Ss5XGXmFLop4JmHsz1j03BbDmE5jqP1NIU9jZhtNUtwrW9VNYm/qwr5/HQURstW1rxTfCESoQC5pAySsCUUhnaKlzmQ48Gae9oWitLciH+LZ2uR0b16NZOYKw5AkHjFDZS/JfvY+DvQv2/6UOR0ywLrlwK8uQIPB3/R0LxSAfIEU3Ckd2q5B5/tkB95zfgp/GlEXpJ3lilwBV5p5lwcE65CebRMJTjsHbDinxK0CXuxJbxOWhh3aHBKi0ieIk7XSOf3anOxlRvkiiqmnxYoAGhhvQw8n1hpt7ZqOUyCaSJV6Uf36cWZlAZne+85OoOktgXdUXE6xkPPqNa4foXbXSDsOLI+hN4PXn8Agm/OUha/00TSNx4Jj97dS9SiR2+9sMizlrhj9jNfJFEYgylrsQgmsfkv5nWEjej3RKX5l2Pgbr2s96/nHxdFATIl+SQsu2hvOSR8g="
     on_success: change
     on_failure: always
     use_notice: true
