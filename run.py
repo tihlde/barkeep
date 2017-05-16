@@ -5,6 +5,8 @@ import InputReader
 
 __author__ = 'Harald Floor Wilhelmsen'
 
+using_bar_code_reader = False
+
 
 def create_barcode_scanner(code_valid_time=15):
     return InputReader.InputReader(
@@ -23,8 +25,13 @@ def create_rfid_reader(code_valid_time=15):
 
 
 def main():
-    barcode_reader = create_barcode_scanner()
-    threading.Thread(target=barcode_reader.start_read_loop).start()
+    global using_bar_code_reader
+    try:
+        barcode_reader = create_barcode_scanner()
+        threading.Thread(target=barcode_reader.start_read_loop).start()
+        using_bar_code_reader = True
+    except FileNotFoundError:
+        print('No barcode-reader found')
 
     rfid_card_reader = create_rfid_reader()
     threading.Thread(target=rfid_card_reader.start_read_loop).start()
@@ -32,7 +39,7 @@ def main():
     while 1:
         if rfid_card_reader.code_is_valid():
             print(rfid_card_reader.get_and_invalidate_code())
-        if barcode_reader.code_is_valid():
+        if using_bar_code_reader and barcode_reader.code_is_valid():
             print(barcode_reader.get_and_invalidate_code())
 
 
