@@ -1,4 +1,8 @@
+import threading
+
 import requests
+
+import InputReader
 from led_controller import LedController
 
 
@@ -11,18 +15,35 @@ def read_password():
 
 class Barkeep:
     rfid_reader = None
-    barcode_reader = None
     led_controller = None
 
-    def __init__(self, rfid_reader, barcode_reader, red_pin, green_pin):
-        self.rfid_reader = rfid_reader
-        self.barcode_reader = barcode_reader
+    _keep_alive = True
+    _t = None
+
+    def __init__(self, rfid_reader_path, red_pin, green_pin):
         self.led_controller = LedController(red_pin, green_pin)
+        self.rfid_reader = InputReader.InputReader(
+            code_valid_time=15,
+            code_validation_pattern='^\d{10}$',
+            device_path=rfid_reader_path)
 
-    def update(self):
-        pass
+    def _run(self):
+        while self._keep_alive:
+            self._single_action()
 
-    def send_request(self, barcode_code):
+    def _single_action(self):
+        if self.rfid_reader.code_is_valid():
+            print(self.rfid_reader.get_and_invalidate_code())
+
+    def start(self):
+        self._t = threading.Thread(target=self._run)
+        self._t.start()
+
+    def stop(self):
+        self._keep_alive = False
+        self._t.join()
+
+    def send_request(self):
         response = requests.post('https://driftbar.tihlde.org/buyfromid?', auth=('barkeep', read_password()))
         http_status = response.status_code
         print('Status: ' + str(http_status) + ', text: ' + response.text)

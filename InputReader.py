@@ -37,7 +37,7 @@ class InputReader:
 
     def code_is_valid(self):
         return re.match(self.code_validation_pattern, self.code_read) \
-            and self.get_age() <= self.code_valid_time
+               and self.get_age() <= self.code_valid_time
 
     def get_and_invalidate_code(self):
         self.time_read = 0
