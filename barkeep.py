@@ -38,10 +38,13 @@ class Barkeep:
     def start(self):
         self._t = threading.Thread(target=self._run)
         self._t.start()
+        self._rfid_t = threading.Thread(target=self.rfid_reader.start_read_loop)
 
     def stop(self):
         self._keep_alive = False
         self._t.join()
+        self.rfid_reader.stop()
+        self._rfid_t.join()
 
     def send_request(self):
         response = requests.post('https://driftbar.tihlde.org/buyfromid?', auth=('barkeep', read_password()))

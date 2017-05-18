@@ -26,6 +26,8 @@ class InputReader:
     code_read = ''
     time_read = 0
 
+    _keep_alive = True
+
     def __init__(self, device_path, code_validation_pattern, code_valid_time):
         self.code_validation_pattern = code_validation_pattern
         self.code_valid_time = code_valid_time
@@ -43,9 +45,14 @@ class InputReader:
         self.time_read = 0
         return self.code_read
 
+    def stop(self):
+        self._keep_alive = False
+
     def start_read_loop(self):
         read_so_far = ''
         for event in self.dev.read_loop():
+            if not self._keep_alive:
+                break
             if event.type == evdev.ecodes.EV_KEY:
                 data = evdev.categorize(event)  # Save the event temporarily
                 if data.keystate == 1:  # Down events only
