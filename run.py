@@ -13,7 +13,7 @@ def signal_handler(signal, frame):
     global bk
     print("Caught Ctrl+C, shutting down...")
     bk.stop()
-    sys.exit()
+    sys.exit(0)
 
 
 def main():

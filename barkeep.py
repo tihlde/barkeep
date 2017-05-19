@@ -19,6 +19,7 @@ class Barkeep:
 
     _keep_alive = True
     _t = None
+    _rfid_t = None
 
     def __init__(self, rfid_reader_path, red_pin, green_pin):
         self.led_controller = LedController(red_pin, green_pin)
@@ -31,6 +32,7 @@ class Barkeep:
     def _run(self):
         while self._keep_alive:
             self._single_action()
+        print('Barkeep stopped')
 
     def _single_action(self):
         if self.rfid_reader.code_is_valid():

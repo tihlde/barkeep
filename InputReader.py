@@ -50,16 +50,19 @@ class InputReader:
 
     def start_read_loop(self):
         read_so_far = ''
-        for event in self.dev.read_loop():
-            if not self._keep_alive:
-                break
-            if event.type == evdev.ecodes.EV_KEY:
-                data = evdev.categorize(event)  # Save the event temporarily
-                if data.keystate == 1:  # Down events only
-                    if data.scancode == 28:
-                        self.code_read = read_so_far
-                        read_so_far = ''
-                        self.time_read = time.time()
-                    else:
-                        key_lookup = self.SCAN_CODES.get(data.scancode)
-                        read_so_far += key_lookup
+        while self._keep_alive:
+            try:
+                for event in self.dev.read():
+                    if event.type == evdev.ecodes.EV_KEY:
+                        data = evdev.categorize(event)  # Save the event temporarily
+                        if data.keystate == 1:  # Down events only
+                            if data.scancode == 28:
+                                self.code_read = read_so_far
+                                read_so_far = ''
+                                self.time_read = time.time()
+                            else:
+                                key_lookup = self.SCAN_CODES.get(data.scancode)
+                                read_so_far += key_lookup
+            except BlockingIOError:
+                pass
+        print('InputReader stopped')
