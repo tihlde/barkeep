@@ -62,8 +62,8 @@ class Barkeep:
 
     def _send_request(self, code, drink_id):
         # /decbarkeep/<ntnu>/<drikkeid>
-        response = requests.post('https://driftbar.tihlde.org/decbarkeep/{0}/{1}'.format(code, drink_id),
-                                 auth=('barkeep', self._password))
+        response = requests.get('https://driftbar.tihlde.org/decbarkeep/{0}/{1}'.format(code, drink_id),
+                                auth=('barkeep', self._password))
         http_status = response.status_code
         print('Status: ' + str(http_status) + ', text: ' + response.text)
         return http_status == requests.codes.ok
