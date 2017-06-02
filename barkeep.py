@@ -1,7 +1,7 @@
 import threading
+from base64 import b64encode
 
 import requests
-from requests.auth import HTTPBasicAuth
 
 import InputReader
 from led_controller import LedController
@@ -24,7 +24,8 @@ class Barkeep:
             device_path=rfid_reader_path)
         self._rfid_t = threading.Thread(target=self._rfid_reader.start_read_loop)
         with open('/home/barkeep/passord', 'r') as file:
-            self._password = file.read().rstrip('\n\r')
+            pw = file.read().rstrip('\n\r')
+            self._credentials = b64encode(('barkeep:' + pw).encode('utf-8')).decode('ascii')
 
     def _run(self):
         while self._keep_alive:
@@ -63,8 +64,9 @@ class Barkeep:
 
     def _send_request(self, code, drink_id):
         # /decbarkeep/<ntnu>/<drikkeid>
+        headers = {'Authorization': 'Basic %s' % self._credentials}
         response = requests.get('https://driftbar.tihlde.org/decbarkeep/{0}/{1}'.format(code, drink_id),
-                                auth=HTTPBasicAuth('barkeep', self._password))
+                                headers=headers)
         http_status = response.status_code
         print('Status: ' + str(http_status) + ', text: ' + response.text)
         return http_status == requests.codes.ok
