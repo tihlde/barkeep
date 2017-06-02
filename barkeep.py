@@ -25,7 +25,6 @@ class Barkeep:
         self._rfid_t = threading.Thread(target=self._rfid_reader.start_read_loop)
         with open('/home/barkeep/passord', 'r') as file:
             self._password = file.read().rstrip('\n\r')
-        print('barkeep started with pw', self._password)
 
     def _run(self):
         while self._keep_alive:
