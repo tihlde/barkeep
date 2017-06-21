@@ -64,7 +64,7 @@ class Barkeep:
 
     def _send_request(self, code, drink_id):
         # /decbarkeep/<ntnu>/<drikkeid>
-        headers = {'Authorization': 'Basic %s' % self._credentials}
+        headers = {'Authorization': 'Basic {}'.format(self._credentials)}
         response = requests.get('https://driftbar.tihlde.org/decbarkeep/{0}/{1}'.format(code, drink_id),
                                 headers=headers)
         http_status = response.status_code
